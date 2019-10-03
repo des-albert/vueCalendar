@@ -13,8 +13,17 @@
       <div class="col-md-2 rectangle-ship">
         Ship
       </div>
+      <div class="col-md-2">
+        <button
+          class="btn btn-primary"
+          @click.prevent="keyAdd"
+        >
+          Refresh
+        </button>
+      </div>
     </div>
     <FullCalendar
+      :key="calendarKey"
       ref="fullCalendar"
       default-view="dayGridMonth"
       :header="{
@@ -44,6 +53,7 @@ export default {
   },
   data() {
     return {
+      calendarKey: 0,
       calendarPlugins: [
         dayGridPlugin,
         interactionPlugin
@@ -60,7 +70,6 @@ export default {
       ],
     };
   },
-
   computed: {
     calendarEvents() {
       const dueDates = this.oppDates.map(opp => (
@@ -118,6 +127,7 @@ export default {
     },
   },
 
+
   created() {
     let uri = '/oppDates';
     if (process.env.NODE_ENV !== 'production') {
@@ -133,6 +143,21 @@ export default {
   },
 
   methods: {
+    keyAdd() {
+      let uri = '/oppDates';
+      if (process.env.NODE_ENV !== 'production') {
+        uri = 'http://localhost:4000/oppDates';
+      }
+      this.axios.get(uri, {withCredentials: true})
+        .then(response => {
+          this.oppDates = response.data;
+        })
+        .catch(() => {
+          console.log('oppDates catch');
+        });
+
+      this.calendarKey += 1;
+    },
     dropDate (eventDropInfo) {
 
       const dropDate = new Date(eventDropInfo.event.start);

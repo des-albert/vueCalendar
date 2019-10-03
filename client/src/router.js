@@ -28,7 +28,8 @@ export default new Router({
     {
       name: 'oppDates',
       path: '/oppDates',
-      component: oppDatesComponent
+      component: oppDatesComponent,
+
     }
   ]
 });
