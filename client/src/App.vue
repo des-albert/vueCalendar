@@ -41,17 +41,17 @@
           </li>
         </ul>
         <ul class="navbar-nav navbar-right">
-          <div v-if="$store.getters.user">
+          <div v-if="$store.getters.userName">
             <li class="nav-item">
               <router-link
                 to="/login"
                 class="nav-link"
               >
-                <div v-if="$store.getters.user.includes('failed')">
-                  <span class="blinking"> {{ $store.getters.user }} </span>
+                <div v-if="$store.getters.userName.includes('failed')">
+                  <span class="blinking"> {{ $store.getters.userName }} </span>
                 </div>
                 <div v-else>
-                  Current User: {{ $store.getters.user }}
+                  Current User: {{ $store.getters.userName }}
                 </div>
               </router-link>
             </li>

@@ -35,7 +35,7 @@ userRoute.route('/').post((req, res) => {
       req.session.instanceUrl = connection.instanceUrl;
       req.session.userId = userInfo.id;
 
-      res.status(200).json('Salesforce login success ' + userInfo.id);
+      res.status(200).json('Success: ' + userInfo.id);
     }
   });
 });

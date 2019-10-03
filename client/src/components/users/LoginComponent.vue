@@ -64,12 +64,14 @@ export default {
       }
 
       this.axios.post(uri, this.userData, {withCredentials: true})
-        .then( () =>   {
-          this.$store.commit('change', this.userData.sfdcName);
+        .then( (response) =>   {
+          this.$store.commit('userName', this.userData.sfdcName);
+          this.$store.commit('userId', response.data.substring(8));
+
           this.$router.push( {name : 'oppDates' });
         })
         .catch( () => {
-          this.$store.commit('change', 'Salesforce Login failed');
+          this.$store.commit('userName', 'Salesforce Login failed');
         });
     }
   }

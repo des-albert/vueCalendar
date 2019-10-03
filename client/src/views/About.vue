@@ -4,6 +4,5 @@
     <p>Vue  version 1.0 - October 1, 2019</p>
     <p>Author : Des Albert</p>
     <h4>Please login with your SalesForce username, Security token, Password</h4>
-    <p></p>
   </div>
 </template>

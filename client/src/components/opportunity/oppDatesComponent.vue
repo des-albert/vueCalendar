@@ -1,6 +1,9 @@
 <template>
   <div class="container-fluid">
     <div class="row">
+      <div class="col-md-2">
+        <br>
+      </div>
       <div class="col-md-2 rectangle-bidDue">
         BidDue
       </div>
@@ -24,7 +27,7 @@
       :weekends="false"
       :events="calendarEvents"
       :editable="true"
-      :event-start-editable="true"
+      :event-resource-editable="true"
       @eventDrop="dropDate"
     />
   </div>
@@ -34,7 +37,6 @@
 import FullCalendar from '@fullcalendar/vue';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-
 
 export default {
   components: {
@@ -65,54 +67,51 @@ export default {
         {
           title: opp.Name + ' - ' + opp.Primary_Quote_Status__c,
           timeZone: 'America/Los_Angeles',
-          start: new Date(opp.Bid_Due_Date__c + 'GMT-8:00'),
-          id: opp.Id,
-          url: 'https:/cray.my.salesforce.com/' + opp.Id,
-          backgroundColor: '#22B86F',
+          start: opp.Bid_Due_Date__c,
+          id: 'BD' + opp.Id,
+          url: 'https://cray.my.salesforce.com/' + opp.Id,
+          backgroundColor: '#59c2bb',
           allDay: true,
-          groupId: 'Bid_Due_Date__c',
           textColor: (opp.Primary_Quote_Status__c === 'Export Complete') ? 'black'
             : (opp.Primary_Quote_Status__c === 'Export Pending') ? 'red'
-              : (opp.Primary_Quote_Status__c === 'Approved') ? 'blue'
+              : (opp.Primary_Quote_Status__c === 'Approved') ? 'cyan'
                 : (opp.Primary_Quote_Status__c === 'Revision Pending') ? 'yellow'
                   : (opp.Primary_Quote_Status__c === 'Approval Pending') ? 'green'
-                    : 'cyan'
+                    : 'blue'
         })
       );
       const orderDates = this.oppDates.map(opp => (
         {
           title: opp.Name + ' - ' + opp.Primary_Quote_Status__c,
           timeZone: 'America/Los_Angeles',
-          start: new Date(opp.OrderDate__c + 'GMT-8:00'),
-          id: opp.Id,
-          url: 'https:/cray.my.salesforce.com/' + opp.Id,
-          backgroundColor: '#d3c12a',
+          start: opp.OrderDate__c,
+          id: 'OD' + opp.Id,
+          url: 'https://cray.my.salesforce.com/' + opp.Id,
+          backgroundColor: '#5587c4',
           allDay: true,
-          groupId: 'OrderDate__c',
           textColor: (opp.Primary_Quote_Status__c === 'Export Complete') ? 'black'
             : (opp.Primary_Quote_Status__c === 'Export Pending') ? 'red'
-              : (opp.Primary_Quote_Status__c === 'Approved') ? 'blue'
+              : (opp.Primary_Quote_Status__c === 'Approved') ? 'cyan'
                 : (opp.Primary_Quote_Status__c === 'Revision Pending') ? 'yellow'
                   : (opp.Primary_Quote_Status__c === 'Approval Pending') ? 'green'
-                    : 'cyan'
+                    : 'blue'
         })
       );
       const shipDates = this.oppDates.map(opp => (
         {
           title: opp.Name + ' - ' + opp.Primary_Quote_Status__c,
           timeZone: 'America/Los_Angeles',
-          start: new Date(opp.Ship_Date__c + 'GMT-8:00'),
-          id: opp.Id,
-          url: 'https:/cray.my.salesforce.com/' + opp.Id,
-          backgroundColor: '#133fff',
+          start: opp.Ship_Date__c,
+          id: 'SD' + opp.Id,
+          url: 'https://cray.my.salesforce.com/' + opp.Id,
+          backgroundColor: '#db7590',
           allDay: true,
-          groupId: 'Ship_Date__c',
           textColor: (opp.Primary_Quote_Status__c === 'Export Complete') ? 'black'
             : (opp.Primary_Quote_Status__c === 'Export Pending') ? 'red'
-              : (opp.Primary_Quote_Status__c === 'Approved') ? 'blue'
+              : (opp.Primary_Quote_Status__c === 'Approved') ? 'cyan'
                 : (opp.Primary_Quote_Status__c === 'Revision Pending') ? 'yellow'
                   : (opp.Primary_Quote_Status__c === 'Approval Pending') ? 'green'
-                    : 'cyan'
+                    : 'blue'
         })
       );
       return dueDates.concat(orderDates).concat(shipDates);
@@ -137,21 +136,21 @@ export default {
     dropDate (eventDropInfo) {
 
       const dropDate = new Date(eventDropInfo.event.start);
-      const sourceId = eventDropInfo.event.id;
-      const eventType = eventDropInfo.event.groupId;
+      const sourceId = eventDropInfo.event.id.substring(2);
+      const eventType = eventDropInfo.event.id.substring(0,2);
       let uri = '/oppDates/change/' + sourceId;
       if (process.env.NODE_ENV !== 'production') {
         uri = 'http://localhost:4000/oppDates/change/' + sourceId;
       }
       let changeJson = null;
       switch (eventType) {
-      case 'Bid_Due_Date__c':
+      case 'BD':
         changeJson = {Bid_Due_Date__c: dropDate};
         break;
-      case 'OrderDate__c':
+      case 'OD':
         changeJson = {OrderDate__c: dropDate};
         break;
-      case 'Ship_Date__c':
+      case 'SD':
         changeJson = {Ship_Date__c: dropDate};
       }
       this.axios.post(uri, changeJson, {withCredentials: true})
@@ -174,17 +173,17 @@ export default {
   .rectangle-bidDue {
     height: 30px;
     width: 50px;
-    background-color: #22B86F;
+    background-color: #59c2bb;
   }
   .rectangle-order {
     height: 30px;
     width: 50px;
-    background-color: #d3c12a;
+    background-color: #5587c4;
   }
   .rectangle-ship {
     height: 30px;
     width: 50px;
-    background-color: #133fff;
+    background-color: #db7590;
   }
 
 </style>
