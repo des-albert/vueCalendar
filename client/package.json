@@ -13,7 +13,7 @@
     "@fullcalendar/timegrid": "^4.4.2",
     "@fullcalendar/vue": "^4.4.2",
     "@vue/eslint-plugin": "^4.2.0",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
     "core-js": "^2.6.11",
     "sass": "^1.26.10",
