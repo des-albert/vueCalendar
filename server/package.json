@@ -14,7 +14,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "jsforce": "^1.9.3",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "node-cache": "^4.2.1",
     "serve-static": "^1.14.1"
   }
